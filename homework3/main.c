@@ -34,39 +34,39 @@ int main(void)
     initDCMotor();
     
     // Go forward for 2 sec.
-    goForwardWithSpeed(30);
+    goForward();
     delay(2000);
 
     // Turn left and go forward for 2 sec and stop.
     goLeft();
-    delay(800);
+    delay(490);
     goForward();
     delay(2000);
     stopDCMotor();
 
     // Go back for 2 sec
-    goBackwardWithSpeed(30);
+    goBackward();
     delay(2000);
 
     // Turn right and go forward for 2 sec and stop.
     goRight();
-    delay(800);
-    goForwardWithSpeed(30);
+    delay(490);
+    goForward();
     delay(2000);
     stopDCMotor();
 
     // Go forward for 2 sec then make left point turn and stop
-    goForwardWithSpeed(30);
+    goForward();
     delay(2000);
     goLeft();
-    delay(800);
+    delay(490);
     stopDCMotor();
 
     // Go back for 2 sec then make right smooth turn and stop
-    goBackwardWithSpeed(30);
+    goBackward();
     delay(2000);
     smoothRight();
-    delay(2000);
+    delay(2600);
     stopDCMotor();
    
     return 0;
@@ -93,10 +93,6 @@ void initDCMotor()
 
 void goRight()
 {
-    // digitalWrite(IN1_PIN, HIGH);
-    // digitalWrite(IN2_PIN, LOW);
-    // digitalWrite(IN3_PIN, LOW);
-    // digitalWrite(IN4_PIN, HIGH);
     softPwmWrite(IN1_PIN, MAX_SPEED);
     softPwmWrite(IN2_PIN, LOW);
     softPwmWrite(IN3_PIN, LOW);
@@ -105,10 +101,6 @@ void goRight()
 
 void goLeft()
 {
-    // digitalWrite(IN1_PIN, LOW);
-    // digitalWrite(IN2_PIN, HIGH);
-    // digitalWrite(IN3_PIN, HIGH);
-    // digitalWrite(IN4_PIN, LOW);
     softPwmWrite(IN1_PIN, LOW);
     softPwmWrite(IN2_PIN, MAX_SPEED);
     softPwmWrite(IN3_PIN, MAX_SPEED);
