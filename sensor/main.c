@@ -14,6 +14,7 @@
 
 void initDCMotor();
 void stopDCMotor();
+void goForward();
 int getDistance();
 void signalHandler(int signal);
 
@@ -34,14 +35,14 @@ int main(void)
     
     signal(SIGINT, signalHandler);
 
-    int choice = 0;
     while(1)
     {  
         printf("Distance %dcm\n", getDistance());
-        if (getDistance() < 30) {
+        if (getDistance() < 20) {
             stopDCMotor();
+        } else {
+            goForward();
         }
-        delay(100);
     }
     
     return 0;
@@ -58,17 +59,17 @@ int getDistance()
     int start_time=0, end_time=0;
     float distance=0;
     
-    digitalWrite(TRIG_PIN, LOW) ;
-    delay(500) ;
-    digitalWrite(TRIG_PIN, HIGH) ;
-    delayMicroseconds(10) ;
-    digitalWrite(TRIG_PIN, LOW) ;
-    while (digitalRead(ECHO_PIN) == 0) ;
-        start_time = micros() ;
-    while (digitalRead(ECHO_PIN) == 1) ;
-        end_time = micros() ;
+    digitalWrite(TRIG_PIN, LOW);
+    delay(500);
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+    while (digitalRead(ECHO_PIN) == 0);
+        start_time = micros();
+    while (digitalRead(ECHO_PIN) == 1);
+        end_time = micros();
     
-    distance = (end_time - start_time) / 29. / 2. ;
+    distance = (end_time - start_time) / 29. / 2.;
     return (int)distance;
 }
 
@@ -85,5 +86,13 @@ void stopDCMotor()
     digitalWrite(IN1_PIN, LOW);
     digitalWrite(IN2_PIN, LOW);
     digitalWrite(IN3_PIN, LOW);
+    digitalWrite(IN4_PIN, LOW);
+}
+
+void goForward()
+{
+    digitalWrite(IN1_PIN, HIGH);
+    digitalWrite(IN2_PIN, LOW);
+    digitalWrite(IN3_PIN, HIGH);
     digitalWrite(IN4_PIN, LOW);
 }
