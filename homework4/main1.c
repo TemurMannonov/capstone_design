@@ -45,7 +45,7 @@ int main(void)
     while(1)
     {  
         int distance = getDistance();
-	printf("Distance %dcm\n", distance);
+	    printf("Distance %dcm\n", distance);
         if (distance < 30) {
 	    printf("Stop dc");
             stopDCMotor();
