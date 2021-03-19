@@ -44,21 +44,19 @@ int main(void)
     
     while(1)
     {  
-        printf("Distance %dcm\n", getDistance());
-        if (getDistance() < 30) {
+        int distance = getDistance();
+	printf("Distance %dcm\n", distance);
+        if (distance < 30) {
+	    printf("Stop dc");
             stopDCMotor();
-            rotate();
-            delay(1000);
-            goForward();
-            delay(2000);
+           // rotate();
+            //delay(1000);
+            //goForward();
+           // delay(2000);
         } else {
             goForward();
         }
-    }
-
- 
-
- 
+    } 
    
     return 0;
 }
