@@ -45,7 +45,7 @@ int main(void)
     while(1)
     {  
         printf("Distance %dcm\n", getDistance());
-        if (getDistance() < 30) {
+        if (getDistance() < 50) {
             bypassObject();
         } else {
             goForward();
@@ -61,15 +61,15 @@ int main(void)
 
 void bypassObject() {
     goBackward();
-    delay(300);
+    delay(500);
     smoothRight();
-    delay(300);
+    delay(1000);
     goForward();
-    delay(300);
+    delay(500);
     smoothLeft();
-    delay(400);
+    delay(2500);
     smoothRight();
-    delay(300);
+    delay(1000);
     goForward();
 }
 
