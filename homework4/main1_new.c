@@ -40,6 +40,8 @@ int main(void)
             delay(1500);
             goForward();
             delay(2000);
+            stopDCMotor();
+            break;
         } else {
             goForward();
         }
