@@ -27,6 +27,7 @@ void smoothLeft();
 void smoothRight();
 void stopDCMotor();
 int getDistance();
+void rotate();
 void signalHandler(int signal);
 
 int main(void)
@@ -45,7 +46,8 @@ int main(void)
     {  
         printf("Distance %dcm\n", getDistance());
         if (getDistance() < 30) {
-            goRight();
+            stopDCMotor();
+            rotate();
             delay(1000);
             goForward();
             delay(2000);
@@ -99,6 +101,14 @@ void initDCMotor()
     softPwmCreate(IN2_PIN, MIN_SPEED, MAX_SPEED);
     softPwmCreate(IN3_PIN, MIN_SPEED, MAX_SPEED);
     softPwmCreate(IN4_PIN, MIN_SPEED, MAX_SPEED);
+}
+
+void rotate()
+{
+    digitalWrite(IN1_PIN, HIGH);
+    digitalWrite(IN2_PIN, LOW);
+    digitalWrite(IN3_PIN, LOW);
+    digitalWrite(IN4_PIN, HIGH);
 }
 
 void goRight()
