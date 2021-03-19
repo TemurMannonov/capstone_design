@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <wiringPi.h>
-#include <softPwm.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #define IN1_PIN 1
