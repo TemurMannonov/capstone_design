@@ -18,7 +18,6 @@ void goForward();
 void goBackward();
 void stopDCMotor();
 int getDistance();
-void rotate();
 void signalHandler(int signal);
 
 int main(void)
@@ -33,20 +32,22 @@ int main(void)
     initDCMotor();
 
     int distance;
+    
     while(1)
     {  
         distance = getDistance();
 	    printf("Distance %dcm\n", distance);
-        if (distance < 30) {
-            rotate();
-            delay(1500);
-            goForward();
-            delay(2000);
+        if (distance < 50) {
+            goBackward();
         } else {
             goForward();
         }
     }
 
+ 
+
+ 
+   
     return 0;
 }
 
@@ -82,14 +83,6 @@ void initDCMotor()
     digitalWrite(IN1_PIN, HIGH);
     digitalWrite(IN2_PIN, HIGH);
     digitalWrite(IN3_PIN, HIGH);
-    digitalWrite(IN4_PIN, HIGH);
-}
-
-void rotate()
-{
-    digitalWrite(IN1_PIN, HIGH);
-    digitalWrite(IN2_PIN, LOW);
-    digitalWrite(IN3_PIN, LOW);
     digitalWrite(IN4_PIN, HIGH);
 }
 
