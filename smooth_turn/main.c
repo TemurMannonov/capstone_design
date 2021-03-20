@@ -24,7 +24,7 @@ int main(void)
 
     initDCMotor();
     
-    goForward(50);
+    goForward();
     delay(500); 
     smoothLeft();
     delay(500);
@@ -67,7 +67,7 @@ void smoothRight()
     softPwmWrite(IN4_PIN, MIN_SPEED);
 }
 
-void goForward(speed)
+void goForward()
 {
     softPwmWrite(IN1_PIN, MAX_SPEED);
     softPwmWrite(IN2_PIN, MIN_SPEED);
