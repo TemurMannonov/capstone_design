@@ -17,6 +17,10 @@
 
 void initDCMotor();
 void goForward();
+void goForwardWithSpeed(int speed);
+void goBackward();
+void smoothLeft();
+void smoothRight();
 void stopDCMotor();
 void rotate();
 int getDistance();
@@ -37,20 +41,23 @@ int main(void)
     int distance;
     while(1)
     {
-        distance = getDistance();
+      distance = getDistance();
 	    printf("Distance %dcm\n", distance);
-        if(distance < 30) {
-            stopDCMotor();
-            delay(200);
-            rotate();
-            delay(900);
-            goForward();
-            delay(2000);
-            stopDCMotor();
-            break;
-        } else {
-            goForward();
-        }
+      if(distance < 40) {
+        printf("if is run ");
+        stopDCMotor();
+        delay(200);
+        printf("stop is run and more ");
+        rotate();
+        delay(900);
+        goForward();
+        delay(2000);
+        stopDCMotor();
+        break;
+      }else{
+        printf("Else is run ");
+        goForwardWithSpeed(35);
+      }
     }
 
     return 0;
@@ -58,19 +65,15 @@ int main(void)
 
 void initDCMotor()
 {
-    pinMode(IN1_PIN, SOFT_PWM_OUTPUT);
-    pinMode(IN2_PIN, SOFT_PWM_OUTPUT);
-    pinMode(IN3_PIN, SOFT_PWM_OUTPUT);
-    pinMode(IN4_PIN, SOFT_PWM_OUTPUT);
-
-    softPwmCreate(IN1_PIN, MIN_SPEED, MAX_SPEED);
-    softPwmCreate(IN2_PIN, MIN_SPEED, MAX_SPEED);
-    softPwmCreate(IN3_PIN, MIN_SPEED, MAX_SPEED);
-    softPwmCreate(IN4_PIN, MIN_SPEED, MAX_SPEED);
+    digitalWrite(IN1_PIN, HIGH);
+    digitalWrite(IN2_PIN, HIGH);
+    digitalWrite(IN3_PIN, HIGH);
+    digitalWrite(IN4_PIN, HIGH);
 }
 
 void rotate()
 {
+    printf("rotate ");
     digitalWrite(IN1_PIN, HIGH);
     digitalWrite(IN2_PIN, LOW);
     digitalWrite(IN3_PIN, LOW);
@@ -79,14 +82,25 @@ void rotate()
 
 void goForward()
 {
-    softPwmWrite(IN1_PIN, MAX_SPEED);
-    softPwmWrite(IN2_PIN, LOW);
-    softPwmWrite(IN3_PIN, MAX_SPEED);
-    softPwmWrite(IN4_PIN, LOW);
+    printf("goF");
+    digitalWrite(IN1_PIN, HIGH);
+    digitalWrite(IN2_PIN, LOW);
+    digitalWrite(IN3_PIN, HIGH);
+    digitalWrite(IN4_PIN, LOW);
+}
+
+
+void goBackward()
+{
+    digitalWrite(IN1_PIN, LOW);
+    digitalWrite(IN2_PIN, HIGH);
+    digitalWrite(IN3_PIN, LOW);
+    digitalWrite(IN4_PIN, HIGH);
 }
 
 void stopDCMotor()
 {
+    printf("stopDCMotor is run ");
     digitalWrite(IN1_PIN, LOW);
     digitalWrite(IN2_PIN, LOW);
     digitalWrite(IN3_PIN, LOW);
@@ -97,6 +111,14 @@ void signalHandler(int signal)
 {
     stopDCMotor();
     exit(0);
+}
+
+void goForwardWithSpeed(int speed)
+{
+    softPwmWrite(IN1_PIN, speed);
+    softPwmWrite(IN2_PIN, MIN_SPEED);
+    softPwmWrite(IN3_PIN, speed);
+    softPwmWrite(IN4_PIN, MIN_SPEED);
 }
 
 

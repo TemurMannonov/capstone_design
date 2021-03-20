@@ -40,7 +40,7 @@ int main(void)
         distance = getDistance();
 	    printf("Distance %dcm\n", distance);
         if(distance < 50) {
-            goBackward()
+            goBackward();
         } else {
             goForward();
         }
