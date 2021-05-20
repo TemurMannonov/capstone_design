@@ -41,6 +41,7 @@ int main(void)
 	    printf("Distance %dcm\n", distance);
         if(distance < 50) {
             goBackward();
+            delay(0);
         } else {
             goForward();
         }
