@@ -43,7 +43,7 @@ int main(void) {
         return 0;
 
     int LValue, RValue;
-    initIR();
+    initLineTracer();
     initDCMotor();
     signal(SIGINT, signalHandler);
 

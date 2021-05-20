@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LEFT_IR_PIN 27
-#define RIGHT_IR_PIN 26
+#define LEFT_TRACER_PIN 10
+#define RIGHT_TRACER_PIN 11
 
 #define IN1_PIN 1
 #define IN2_PIN 4
@@ -16,8 +16,8 @@
 #define MAX_SPEED 50
 #define MIN_SPEED 0
 
-// Init IR sensors
-void initIR();
+// Init Line Tracer
+void initLineTracer();
 
 // DC Motor
 void initDCMotor();
@@ -34,74 +34,53 @@ void stopDCMotor();
 // Signal handler function
 void signalHandler(int signal);
 
-// Get distance 
-int getDistance();
-
 int main(void) {
 
     if(wiringPiSetup() == -1)
         return 0;
 
-    int LValue, RValue;
-    initIR();
+    initLineTracer();
     initDCMotor();
     signal(SIGINT, signalHandler);
 
     while (1) {
-        LValue = digitalRead(LEFT_IR_PIN);
-        RValue = digitalRead(RIGHT_IR_PIN);
-
-        distance = getDistance();
-	    printf("Distance %dcm\n", distance);
-        if(distance < 20) {
-            printf("Stop");
-            stopDCMotor();
-            delay(200);
-        }else{
-            goForward();
-        }
-
-        if (LValue == 1 && RValue == 0 ) {
-            printf("Right\n");
-            stopDCMotor();
-            goBackward();
-            delay(200);
-            goLeft();
-            delay(1500);
-            goForward();
-            delay(600);
-
-        } else if (LValue == 0 && RValue == 1) {
+        leftTracer = digitalRead(LEFT_TRACER_PIN);
+        rightTracer = digitalRead(RIGHT_TRACER_PIN);
+        
+        if (leftTracer == 0 && rightTracer == 1) {
             printf("Left\n");
-            stopDCMotor();
             goBackward();
             delay(200);
             goRight();
-            delay(1500);
-            goLeft();
-            delay(600);
-
-        } else if(LValue == 0 && RValue == 0){
-            printf("Both\n");
+            delay(200);
+            goForward();
+            delay(200);
+        } else if (rightTracer ==0 && leftTracer == 1) {
+            printf("Right\n");
             goBackward();
-            delay(300);
+            delay(200);
+            goRight();
+            delay(200);
+            goForward();
+            delay(200);
+        } else if (rightTracer == 0 && leftTracer == 0) {
+            printf("Both\n");
             stopDCMotor();
             delay(200);
-
-        } else if(LValue == 1 && RValue == 1){
+        } else if (rightTracer == 1 && leftTracer == 1) {
             printf("No\n");
             goForward();
-
+            delay(200);
         }
-
-        delay(100);
     }
+    
+    return 0;
 }
 
-void initIR()
+void initLineTracer()
 {
-    pinMode(LEFT_IR_PIN, INPUT);
-    pinMode(RIGHT_IR_PIN, INPUT);
+    pinMode(LEFT_TRACER_PIN, INPUT);
+    pinMode(RIGHT_TRACER_PIN, INPUT);
 }
 
 void initDCMotor()
@@ -186,27 +165,6 @@ void stopDCMotor()
     digitalWrite(IN2_PIN, LOW);
     digitalWrite(IN3_PIN, LOW);
     digitalWrite(IN4_PIN, LOW);
-}
-
-int getDistance()
-{
-    int start_time=0, end_time=0;
-    float distance=0;
-
-    digitalWrite(TRIG_PIN, LOW);
-    delay(500);
-    digitalWrite(TRIG_PIN, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(TRIG_PIN, LOW);
-
-    while (digitalRead(ECHO_PIN) == 0);
-        start_time = micros();
-
-    while (digitalRead(ECHO_PIN) == 1);
-        end_time = micros();
-
-    distance = (end_time - start_time) / 29. / 2.;
-    return (int)distance;
 }
 
 void signalHandler(int signal)
