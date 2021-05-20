@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LEFT_IR_PIN 27
-#define RIGHT_IR_PIN 26
+#define LEFT_TRACER_PIN 10
+#define RIGHT_TRACER_PIN 11
 
 #define IN1_PIN 1
 #define IN2_PIN 4
@@ -16,6 +16,10 @@
 #define MAX_SPEED 50
 #define MIN_SPEED 0
 
+// Init Line Tracer
+void initLineTracer();
+
+// DC Motor
 void initDCMotor();
 void goForward();
 void goForwardWithSpeed(int speed);
@@ -26,61 +30,46 @@ void goRight();
 void smoothLeft();
 void smoothRight();
 void stopDCMotor();
+
+// Signal handler function
 void signalHandler(int signal);
 
-void initIR()
-{
-  pinMode(LEFT_IR_PIN, INPUT);
-  pinMode(RIGHT_IR_PIN, INPUT);
-}
+int main(void) {
 
-int main(void){
-  if(wiringPiSetup() == -1)
-    return 0;
-  int LValue, RValue;
-  initIR();
-  initDCMotor();
-  signal(SIGINT, signalHandler);
-  while (1) {
-    LValue = digitalRead(LEFT_IR_PIN);
-    RValue = digitalRead(RIGHT_IR_PIN);
-    if(LValue == 1 && RValue == 0 ) {
-      printf("Right\n");
-      stopDCMotor();
-      goBackward();
-      delay(200);
-      smoothLeft();
-      delay(1500);
-      goRight();
-      delay(600);
-    }else if (LValue == 0 && RValue == 1) {
-      printf("Left\n");
-      stopDCMotor();
-      goBackward();
-      delay(200);
-      smoothRight();
-      delay(1500);
-      goLeft();
-      delay(600);
-    }else if(LValue == 0 && RValue == 0){
-      printf("Both\n");
-      goBackward();
-      delay(300);
-      stopDCMotor();
-      delay(200);
-      break;
-    }else if(LValue == 1 && RValue == 1){
-      printf("No\n");
-      goForward();
+    if(wiringPiSetup() == -1)
+        return 0;
+
+    int LValue, RValue;
+    initIR();
+    initLineTracer();
+    initDCMotor();
+    signal(SIGINT, signalHandler);
+    
+    int counter == 0;
+    while (1) {
+        leftTracer = digitalRead(LEFT_TRACER_PIN);
+        rightTracer = digitalRead(RIGHT_TRACER_PIN);
+        
+        if (leftTracer == 1 && rightTracer == 1) {
+            counter++;
+        } 
+
+        if counter == 2 {
+            stopDCMotor();
+            break();
+        } else {
+            goForward();
+        }
     }
-    delay(100);
-  }
+    
+    return 0;
 }
 
-
-
-
-
+void initLineTracer()
+{
+    pinMode(LEFT_TRACER_PIN, INPUT);
+    pinMode(RIGHT_TRACER_PIN, INPUT);
+}
 
 void initDCMotor()
 {

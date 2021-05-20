@@ -19,8 +19,6 @@ void initDCMotor();
 void goForward();
 void goForwardWithSpeed(int speed);
 void goBackward();
-void smoothLeft();
-void smoothRight();
 void stopDCMotor();
 void rotate();
 int getDistance();
@@ -41,23 +39,22 @@ int main(void)
     int distance;
     while(1)
     {
-      distance = getDistance();
+        distance = getDistance();
 	    printf("Distance %dcm\n", distance);
-      if(distance < 40) {
-        printf("if is run ");
-        stopDCMotor();
-        delay(200);
-        printf("stop is run and more ");
-        rotate();
-        delay(900);
-        goForward();
-        delay(2000);
-        stopDCMotor();
-        break;
-      }else{
-        printf("Else is run ");
-        goForwardWithSpeed(35);
-      }
+        if(distance < 30) {
+            printf("Stop");
+            stopDCMotor();
+            delay(200);
+            printf("Rotate");
+            rotate();
+            delay(900);
+            goForward();
+            delay(2000);
+            stopDCMotor();
+            break;
+        }else{
+            goForwardWithSpeed(35);
+        }
     }
 
     return 0;
@@ -73,7 +70,6 @@ void initDCMotor()
 
 void rotate()
 {
-    printf("rotate ");
     digitalWrite(IN1_PIN, HIGH);
     digitalWrite(IN2_PIN, LOW);
     digitalWrite(IN3_PIN, LOW);
@@ -82,7 +78,6 @@ void rotate()
 
 void goForward()
 {
-    printf("goF");
     digitalWrite(IN1_PIN, HIGH);
     digitalWrite(IN2_PIN, LOW);
     digitalWrite(IN3_PIN, HIGH);
@@ -100,7 +95,6 @@ void goBackward()
 
 void stopDCMotor()
 {
-    printf("stopDCMotor is run ");
     digitalWrite(IN1_PIN, LOW);
     digitalWrite(IN2_PIN, LOW);
     digitalWrite(IN3_PIN, LOW);
