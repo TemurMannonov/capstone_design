@@ -54,9 +54,9 @@ int main(void) {
             goBackward();
             delay(200);
             goLeft();
-            delay(1500);
+            delay(200);
             goForward();
-            delay(600);
+            delay(200);
 
         } else if (LValue == 0 && RValue == 1) {
             printf("Left\n");
@@ -64,14 +64,14 @@ int main(void) {
             goBackward();
             delay(200);
             goRight();
-            delay(1500);
+            delay(200);
             goLeft();
-            delay(600);
+            delay(200);
 
         } else if(LValue == 0 && RValue == 0){
             printf("Both\n");
             goBackward();
-            delay(300);
+            delay(200);
             stopDCMotor();
             delay(200);
 
