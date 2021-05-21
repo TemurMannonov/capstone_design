@@ -43,6 +43,7 @@ int main(void) {
     initDCMotor();
     initLineTracer();
     signal(SIGINT, signalHandler);
+    int counter = 0;
 
     while (1) {
         leftTracer = digitalRead(LEFT_TRACER_PIN);
@@ -58,8 +59,18 @@ int main(void) {
             delay(100);
         } else if (rightTracer == 1 && leftTracer == 1) {
             printf("Both\n");
-            stopDCMotor();
-            delay(100);
+            if (counter == 4) {
+                rotate();
+                delay(300);
+                continue;
+            }
+
+            if (counter == 7) {
+                stopDCMotor();
+                break();
+            }
+            
+            delay(300);
         } else if (rightTracer == 0 && leftTracer == 0) {
             printf("No\n");
             goForward();
