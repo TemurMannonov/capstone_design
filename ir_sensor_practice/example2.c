@@ -23,7 +23,7 @@ int main(void){
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
         if (leftTracer == 0 && rightTracer == 1) {
-         printf("Left\n");
+            printf("Left\n");
         } else if (rightTracer ==0 && leftTracer == 1) {
             printf("Right\n");
         } else if (rightTracer == 0 && leftTracer == 0) {
