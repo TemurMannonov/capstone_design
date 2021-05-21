@@ -5,13 +5,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LEFT_TRACER_PIN 10
-#define RIGHT_TRACER_PIN 11
-
 #define IN1_PIN 1
 #define IN2_PIN 4
 #define IN3_PIN 5
 #define IN4_PIN 6
+
+#define LEFT_TRACER_PIN 10
+#define RIGHT_TRACER_PIN 11
 
 #define MAX_SPEED 50
 #define MIN_SPEED 0
@@ -41,11 +41,12 @@ int main(void) {
 
     int leftTracer, rightTracer;
 
-    initLineTracer();
     initDCMotor();
+    initLineTracer();
     signal(SIGINT, signalHandler);
     
     int counter == 0;
+    
     while (1) {
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
