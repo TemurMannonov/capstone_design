@@ -41,8 +41,12 @@ int main(void) {
 
     initDCMotor();
     signal(SIGINT, signalHandler);
+    goForward();
+    delay(200);
     rotate();
     delay(2000);
+    stopDCMotor();
+    
     
     return 0;
 }
