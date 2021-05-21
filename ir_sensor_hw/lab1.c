@@ -8,6 +8,9 @@
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
+#define TRIG_PIN 28
+#define ECHO_PIN 29
+
 #define IN1_PIN 1
 #define IN2_PIN 4
 #define IN3_PIN 5
@@ -43,6 +46,8 @@ int main(void) {
         return 0;
 
     int leftTracer, rightTracer;
+    int distance;
+    
     initLineTracer();
     initDCMotor();
     signal(SIGINT, signalHandler);
