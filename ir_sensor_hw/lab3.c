@@ -60,20 +60,20 @@ int main(void) {
             delay(50);
         } else if (rightTracer == 1 && leftTracer == 1) {
             printf("Both\n");
-            if (counter == 3) {
+            goForward();
+            counter++;
+	        printf("Counter: %d\n", counter);
+            delay(200);
+            if (counter == 4) {
                 rotate();
                 delay(1500);
                 continue;
             }
 
-            if (counter >= 6) {
+            if (counter >= 7) {
                 stopDCMotor();
                 break;
             }
-            goForward();
-            counter++;
-	    printf("Counter: %d\n", counter);
-            delay(200);
         } else if (rightTracer == 0 && leftTracer == 0) {
             printf("No\n");
             goForward();
