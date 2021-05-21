@@ -42,8 +42,8 @@ int main(void) {
     if(wiringPiSetup() == -1)
         return 0;
 
-    int LValue, RValue;
-    initIR();
+    int leftTracer, rightTracer;
+    initLineTracer();
     initDCMotor();
     signal(SIGINT, signalHandler);
 
@@ -58,32 +58,33 @@ int main(void) {
             printf("Stop");
             stopDCMotor();
             delay(200);
-        } else {
-            if (leftTracer == 0 && rightTracer == 1) {
-                printf("Left\n");
-                goBackward();
-                delay(200);
-                goRight();
-                delay(1000);
-                goForward();
-                delay(600);
-            } else if (rightTracer ==0 && leftTracer == 1) {
-                printf("Right\n");
-                goBackward();
-                delay(200);
-                goRight();
-                delay(1000);
-                goForward();
-                delay(600);
-            } else if (rightTracer == 0 && leftTracer == 0) {
-                printf("Both\n");
-                stopDCMotor();
-                delay(200);
-            } else if (rightTracer == 1 && leftTracer == 1) {
-                printf("No\n");
-                goForward();
-                delay(200);
-            }
+        } 
+
+
+        if (leftTracer == 1 && rightTracer == 0) {
+            printf("Left\n");
+            goBackward();
+            delay(200);
+            goLeft();
+            delay(200);
+            goForward();
+            delay(200);
+        } else if (rightTracer == 1 && leftTracer == 0) {
+            printf("Right\n");
+            goBackward();
+            delay(200);
+            goRight();
+            delay(200);
+            goForward();
+            delay(200);
+        } else if (rightTracer == 1 && leftTracer == 1) {
+            printf("Both\n");
+            stopDCMotor();
+            delay(200);
+        } else if (rightTracer == 0 && leftTracer == 0) {
+            printf("No\n");
+            goForward();
+            delay(200);
         }
     }
     
