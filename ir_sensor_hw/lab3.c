@@ -63,9 +63,10 @@ int main(void) {
             goForward();
             counter++;
 	        printf("Counter: %d\n", counter);
-            delay(200);
+            
             if (counter == 4) {
-                rotate();
+                stopDCMotor();
+		    rotate();
                 delay(1500);
                 continue;
             }
@@ -74,6 +75,7 @@ int main(void) {
                 stopDCMotor();
                 break;
             }
+	    delay(200);
         } else if (rightTracer == 0 && leftTracer == 0) {
             printf("No\n");
             goForward();
