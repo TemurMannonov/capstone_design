@@ -13,7 +13,7 @@
 #define IN3_PIN 5
 #define IN4_PIN 6
 
-#define MAX_SPEED 50
+#define MAX_SPEED 80
 #define MIN_SPEED 0
 
 // Init Line Tracer
@@ -41,8 +41,8 @@ int main(void) {
 
     int leftTracer, rightTracer;
 
-    initLineTracer();
     initDCMotor();
+    initLineTracer();
     signal(SIGINT, signalHandler);
 
     while (1) {
@@ -51,19 +51,11 @@ int main(void) {
         
         if (leftTracer == 1 && rightTracer == 0) {
             printf("Left\n");
-            goBackward();
-            delay(200);
             goLeft();
-            delay(200);
-            goForward();
             delay(200);
         } else if (rightTracer == 1 && leftTracer == 0) {
             printf("Right\n");
-            goBackward();
-            delay(200);
             goRight();
-            delay(200);
-            goForward();
             delay(200);
         } else if (rightTracer == 1 && leftTracer == 1) {
             printf("Both\n");

@@ -15,7 +15,7 @@
 #define TRIG_PIN 28
 #define ECHO_PIN 29
 
-#define MAX_SPEED 50
+#define MAX_SPEED 80
 #define MIN_SPEED 0
 
 // Init Line Tracer

@@ -2,7 +2,6 @@
 #include <wiringPi.h>
 #include <softPwm.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #define IN1_PIN 1
@@ -46,7 +45,8 @@ int main(void) {
     signal(SIGINT, signalHandler);
     
     int counter == 0;
-    
+
+    goForward();
     while (1) {
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
@@ -57,9 +57,7 @@ int main(void) {
 
         if counter == 2 {
             stopDCMotor();
-            break();
-        } else {
-            goForward();
+            break;
         }
     }
     
