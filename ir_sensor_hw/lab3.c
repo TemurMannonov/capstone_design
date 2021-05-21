@@ -29,6 +29,7 @@ void goRight();
 void smoothLeft();
 void smoothRight();
 void stopDCMotor();
+void rotate();
 
 // Signal handler function
 void signalHandler(int signal);
@@ -67,9 +68,9 @@ int main(void) {
 
             if (counter == 7) {
                 stopDCMotor();
-                break();
+                break;
             }
-            
+
             delay(300);
         } else if (rightTracer == 0 && leftTracer == 0) {
             printf("No\n");
@@ -169,6 +170,13 @@ void stopDCMotor()
     digitalWrite(IN2_PIN, LOW);
     digitalWrite(IN3_PIN, LOW);
     digitalWrite(IN4_PIN, LOW);
+}
+void rotate()
+{
+    digitalWrite(IN1_PIN, HIGH);
+    digitalWrite(IN2_PIN, LOW);
+    digitalWrite(IN3_PIN, LOW);
+    digitalWrite(IN4_PIN, HIGH);
 }
 
 void signalHandler(int signal)
