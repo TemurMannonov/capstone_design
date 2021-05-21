@@ -12,7 +12,7 @@
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
-#define MAX_SPEED 80
+#define MAX_SPEED 50
 #define MIN_SPEED 0
 
 // Init Line Tracer
