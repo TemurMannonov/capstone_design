@@ -2,6 +2,7 @@
 #include <wiringPi.h>
 #include <softPwm.h>
 #include <signal.h>
+#include <stdlib.h>
 
 #define IN1_PIN 1
 #define IN2_PIN 4
