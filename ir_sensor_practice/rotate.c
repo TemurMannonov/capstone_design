@@ -139,10 +139,10 @@ void stopDCMotor()
 
 void rotate()
 {
-    digitalWrite(IN1_PIN, HIGH);
-    digitalWrite(IN2_PIN, LOW);
-    digitalWrite(IN3_PIN, LOW);
-    digitalWrite(IN4_PIN, HIGH);
+    softPwmWrite(IN1_PIN, MAX_SPEED);
+    softPwmWrite(IN2_PIN, MIN_SPEED);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
+    softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 void signalHandler(int signal)
