@@ -72,6 +72,7 @@ int main(void) {
                 break;
             }
 
+            counter++;
             delay(300);
         } else if (rightTracer == 0 && leftTracer == 0) {
             printf("No\n");
