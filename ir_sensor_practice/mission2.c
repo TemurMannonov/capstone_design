@@ -49,15 +49,15 @@ int main(void) {
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
-        if (leftTracer == 0 && rightTracer == 1) {
+        if (leftTracer == 1 && rightTracer == 0) {
             printf("Left\n");
             goBackward();
             delay(200);
-            goRight();
+            goLeft();
             delay(200);
             goForward();
             delay(200);
-        } else if (rightTracer ==0 && leftTracer == 1) {
+        } else if (rightTracer == 1 && leftTracer == 0) {
             printf("Right\n");
             goBackward();
             delay(200);
@@ -65,11 +65,11 @@ int main(void) {
             delay(200);
             goForward();
             delay(200);
-        } else if (rightTracer == 0 && leftTracer == 0) {
+        } else if (rightTracer == 1 && leftTracer == 1) {
             printf("Both\n");
             stopDCMotor();
             delay(200);
-        } else if (rightTracer == 1 && leftTracer == 1) {
+        } else if (rightTracer == 0 && leftTracer == 0) {
             printf("No\n");
             goForward();
             delay(200);
