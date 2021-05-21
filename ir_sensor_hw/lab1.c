@@ -41,23 +41,24 @@ void signalHandler(int signal);
 int getDistance();
 
 int main(void) {
-
+    printf("OK1");
     if(wiringPiSetup() == -1)
         return 0;
 
     int leftTracer, rightTracer;
     int distance;
-    
+    printf("ok2");
     initLineTracer();
     initDCMotor();
     signal(SIGINT, signalHandler);
 
     while (1) {
+	printf("OK1");
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
-        
+        printf("OK2");  
         distance = getDistance();
-	      printf("Distance %dcm\n", distance);
+        printf("Distance %dcm\n", distance);
         
         if(distance < 20) {
             printf("Stop");
