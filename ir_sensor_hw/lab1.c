@@ -12,7 +12,7 @@
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
-#define MAX_SPEED 80
+#define MAX_SPEED 50
 #define MIN_SPEED 0
 
 // Init Line Tracer
@@ -49,15 +49,17 @@ int main(void) {
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
-        if (rightTracer == 1 && leftTracer == 1) {
+        printf("Tracer %d\n" ,leftTracer);	
+        if (rightTracer == 0 || leftTracer == 0) {
             printf("Line\n");
             goForward();
             delay(100);
         } else {
-            delay(200);
+            delay(400);
             goLeft();
-            delay(300);
+            delay(1500);
             stopDCMotor();
+	    break;
         }
     }
     

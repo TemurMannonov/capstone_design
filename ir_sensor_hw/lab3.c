@@ -12,7 +12,7 @@
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
-#define MAX_SPEED 50
+#define MAX_SPEED 80
 #define MIN_SPEED 0
 
 // Init Line Tracer
@@ -53,31 +53,31 @@ int main(void) {
         if (leftTracer == 1 && rightTracer == 0) {
             printf("Left\n");
             goLeft();
-            delay(100);
+            delay(50);
         } else if (rightTracer == 1 && leftTracer == 0) {
             printf("Right\n");
             goRight();
-            delay(100);
+            delay(50);
         } else if (rightTracer == 1 && leftTracer == 1) {
             printf("Both\n");
-            printf("Counter: %d\n", counter);
-            if (counter == 4) {
+            if (counter == 3) {
                 rotate();
-                delay(1000);
+                delay(1500);
                 continue;
             }
 
-            if (counter >= 7) {
+            if (counter >= 6) {
                 stopDCMotor();
                 break;
             }
-
+            goForward();
             counter++;
-            delay(300);
+	    printf("Counter: %d\n", counter);
+            delay(200);
         } else if (rightTracer == 0 && leftTracer == 0) {
             printf("No\n");
             goForward();
-            delay(100);
+            delay(50);
         }
     }
     
