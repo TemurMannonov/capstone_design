@@ -2,19 +2,15 @@
 #include <wiringPi.h>
 #include <softPwm.h>
 #include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
-
-#define LEFT_TRACER_PIN 10
-#define RIGHT_TRACER_PIN 11
-
-#define TRIG_PIN 28
-#define ECHO_PIN 29
 
 #define IN1_PIN 1
 #define IN2_PIN 4
 #define IN3_PIN 5
 #define IN4_PIN 6
+
+#define LEFT_TRACER_PIN 10
+#define RIGHT_TRACER_PIN 11
 
 #define MAX_SPEED 50
 #define MIN_SPEED 0
@@ -33,13 +29,9 @@ void goRight();
 void smoothLeft();
 void smoothRight();
 void stopDCMotor();
-void rotate();
 
 // Signal handler function
 void signalHandler(int signal);
-
-// Get distance 
-int getDistance();
 
 int main(void) {
 
@@ -47,63 +39,31 @@ int main(void) {
         return 0;
 
     int leftTracer, rightTracer;
-    int distance;
-    initLineTracer();
-    initDCMotor();
-    signal(SIGINT, signalHandler);
 
-    int counter = 0;
+    initDCMotor();
+    initLineTracer();
+    signal(SIGINT, signalHandler);
 
     while (1) {
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
-        distance = getDistance();
-	      printf("Distance %dcm\n", distance);
-        
-        if(distance < 20) {
-            printf("Stop");
-            stopDCMotor();
-            delay(200);
-            continue;
-        } 
-
-
         if (leftTracer == 1 && rightTracer == 0) {
             printf("Left\n");
-            goBackward();
-            delay(200);
             goLeft();
-            delay(200);
-            goForward();
-            delay(200);
+            delay(100);
         } else if (rightTracer == 1 && leftTracer == 0) {
             printf("Right\n");
-            goBackward();
-            delay(200);
             goRight();
-            delay(200);
-            goForward();
-            delay(200);
+            delay(100);
         } else if (rightTracer == 1 && leftTracer == 1) {
-            counter++;
             printf("Both\n");
             stopDCMotor();
-            delay(200);
+            delay(100);
         } else if (rightTracer == 0 && leftTracer == 0) {
             printf("No\n");
             goForward();
-            delay(200);
-        }
-
-        if (counter == 3) {
-            rotate();
-            delay(400);
-        }
-
-        if (counter == 6) {
-            stopDCMotor();
-            break;
+            delay(100);
         }
     }
     
@@ -127,14 +87,6 @@ void initDCMotor()
     softPwmCreate(IN2_PIN, MIN_SPEED, MAX_SPEED);
     softPwmCreate(IN3_PIN, MIN_SPEED, MAX_SPEED);
     softPwmCreate(IN4_PIN, MIN_SPEED, MAX_SPEED);
-}
-
-void rotate()
-{
-    digitalWrite(IN1_PIN, HIGH);
-    digitalWrite(IN2_PIN, LOW);
-    digitalWrite(IN3_PIN, LOW);
-    digitalWrite(IN4_PIN, HIGH);
 }
 
 void goForward()
@@ -206,27 +158,6 @@ void stopDCMotor()
     digitalWrite(IN2_PIN, LOW);
     digitalWrite(IN3_PIN, LOW);
     digitalWrite(IN4_PIN, LOW);
-}
-
-int getDistance()
-{
-    int start_time=0, end_time=0;
-    float distance=0;
-
-    digitalWrite(TRIG_PIN, LOW);
-    delay(500);
-    digitalWrite(TRIG_PIN, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(TRIG_PIN, LOW);
-
-    while (digitalRead(ECHO_PIN) == 0);
-        start_time = micros();
-
-    while (digitalRead(ECHO_PIN) == 1);
-        end_time = micros();
-
-    distance = (end_time - start_time) / 29. / 2.;
-    return (int)distance;
 }
 
 void signalHandler(int signal)
