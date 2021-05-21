@@ -13,7 +13,7 @@
 #define IN3_PIN 5
 #define IN4_PIN 6
 
-#define MAX_SPEED 50
+#define MAX_SPEED 30
 #define MIN_SPEED 0
 
 // Init Line Tracer
