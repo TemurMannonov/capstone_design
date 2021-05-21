@@ -39,8 +39,8 @@ int main(void) {
     if(wiringPiSetup() == -1)
         return 0;
 
-    int LValue, RValue;
-    initIR();
+    int leftTracer, rightTracer;
+
     initLineTracer();
     initDCMotor();
     signal(SIGINT, signalHandler);
