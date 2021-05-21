@@ -53,6 +53,7 @@ int main(void) {
         
         if (leftTracer == 1 && rightTracer == 1) {
             counter++;
+            delay(200);
         } 
 
         if counter == 2 {
