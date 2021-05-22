@@ -214,9 +214,9 @@ void smoothRight()
 void stopDCMotor()
 {
     softPwmStop(IN1_PIN);
+    softPwmStop(IN2_PIN);
+    softPwmStop(IN3_PIN);
     softPwmStop(IN4_PIN);
-    softPwmStop(IN5_PIN);
-    softPwmStop(IN6_PIN);
 }
 void rotate()
 {
