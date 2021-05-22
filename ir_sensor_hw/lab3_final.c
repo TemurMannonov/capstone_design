@@ -12,6 +12,12 @@
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
+#define LEFT_IR_PIN 27
+#define RIGHT_IR_PIN 26
+
+#define TRIG_PIN 28
+#define ECHO_PIN 29
+
 #define MAX_SPEED 80
 #define MIN_SPEED 0
 
@@ -31,6 +37,9 @@ void smoothRight();
 void stopDCMotor();
 void rotate();
 
+// Get distance function
+int getDistance();
+
 // Signal handler function
 void signalHandler(int signal);
 
@@ -40,6 +49,8 @@ int main(void) {
         return 0;
 
     int leftTracer, rightTracer;
+    int LValue, RValue;
+    int distance;
 
     initDCMotor();
     initLineTracer();
@@ -47,22 +58,33 @@ int main(void) {
     int counter = 0;
 
     while (1) {
+        distance = getDistance();
+	    printf("Distance %dcm\n", distance);
+
+        if (distance < 20) {
+            stopDCMotor();
+            continue;
+        }
+
+        LValue = digitalRead(LEFT_IR_PIN);
+        RValue = digitalRead(RIGHT_IR_PIN);
+        if (LValue == 0 || RValue == 0) {
+            stopDCMotor();
+            continue;
+        }
+
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
         if (leftTracer == 1 && rightTracer == 0) {
-            printf("Left\n");
             goLeft();
             delay(50);
         } else if (rightTracer == 1 && leftTracer == 0) {
-            printf("Right\n");
             goRight();
             delay(50);
         } else if (rightTracer == 1 && leftTracer == 1) {
-            printf("Both\n");
             goForward();
             counter++;
-	        printf("Counter: %d\n", counter);
             
             if (counter == 4) {
                 stopDCMotor();
@@ -79,7 +101,6 @@ int main(void) {
 	        delay(200);
 
         } else if (rightTracer == 0 && leftTracer == 0) {
-            printf("No\n");
             goForward();
             delay(50);
         }
@@ -183,6 +204,25 @@ void rotate()
     softPwmWrite(IN2_PIN, MIN_SPEED);
     softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, MAX_SPEED);
+}
+
+int getDistance()
+{
+    int start_time=0, end_time=0;
+    float distance=0;
+
+    digitalWrite(TRIG_PIN, LOW);
+    delayMicroseconds(2);
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+    while (digitalRead(ECHO_PIN) == 0);
+        start_time = micros();
+    while (digitalRead(ECHO_PIN) == 1);
+        end_time = micros();
+
+    distance = (end_time - start_time) / 29. / 2.;
+    return (int)distance;
 }
 
 void signalHandler(int signal)
