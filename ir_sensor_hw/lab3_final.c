@@ -18,7 +18,7 @@
 #define TRIG_PIN 28
 #define ECHO_PIN 29
 
-#define MAX_SPEED 80
+#define MAX_SPEED 60
 #define MIN_SPEED 0
 
 // Init Line Tracer Sensors
@@ -90,21 +90,19 @@ int main(void) {
         
         if (leftTracer == 1 && rightTracer == 0) {
             goLeft();
-            delay(10);
+            delay(20);
         } else if (rightTracer == 1 && leftTracer == 0) {
             goRight();
-            delay(10);
+            delay(20);
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
             counter++;
-            
+            printf("Counter: %d", counter);            
             if (counter == 4) {
-                stopDCMotor();
-		        rotate();
-                delay(1200);
-                goForward();
+		goLeft();
+                delay(1500);
                 continue;
-            }
+	    }
 
             if (counter >= 7) {
                 stopDCMotor();
@@ -114,7 +112,7 @@ int main(void) {
 
         } else if (rightTracer == 0 && leftTracer == 0) {
             goForward();
-            delay(10);
+            delay(20);
         }
     }
     
