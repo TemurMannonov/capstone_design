@@ -24,6 +24,8 @@
 // Init Line Tracer
 void initLineTracer();
 
+// Init IR
+void initIR();
 // DC Motor
 void initDCMotor();
 void goForward();
@@ -47,12 +49,16 @@ int main(void) {
 
     if(wiringPiSetup() == -1)
         return 0;
+    
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
 
     int leftTracer, rightTracer;
     int LValue, RValue;
     int distance;
 
     initDCMotor();
+    initIR();
     initLineTracer();
     signal(SIGINT, signalHandler);
     int counter = 0;
@@ -68,7 +74,7 @@ int main(void) {
 
         LValue = digitalRead(LEFT_IR_PIN);
         RValue = digitalRead(RIGHT_IR_PIN);
-        if (LValue == 0 || RValue == 0) {
+        if (LValue == 1 || RValue == 1) {
             stopDCMotor();
             continue;
         }
@@ -78,10 +84,10 @@ int main(void) {
         
         if (leftTracer == 1 && rightTracer == 0) {
             goLeft();
-            delay(50);
+            delay(10);
         } else if (rightTracer == 1 && leftTracer == 0) {
             goRight();
-            delay(50);
+            delay(10);
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
             counter++;
@@ -89,7 +95,7 @@ int main(void) {
             if (counter == 4) {
                 stopDCMotor();
 		        rotate();
-                delay(1500);
+                delay(1200);
                 goForward();
                 continue;
             }
@@ -102,7 +108,7 @@ int main(void) {
 
         } else if (rightTracer == 0 && leftTracer == 0) {
             goForward();
-            delay(50);
+            delay(10);
         }
     }
     
@@ -113,6 +119,12 @@ void initLineTracer()
 {
     pinMode(LEFT_TRACER_PIN, INPUT);
     pinMode(RIGHT_TRACER_PIN, INPUT);
+}
+
+void initIR()
+{
+    pinMode(LEFT_IR_PIN, INPUT);
+    pinMode(RIGHT_IR_PIN, INPUT);
 }
 
 void initDCMotor()

@@ -53,11 +53,11 @@ int main(void) {
         if (leftTracer == 1 && rightTracer == 0) {
             printf("Left\n");
             goLeft();
-            delay(50);
+            delay(10);
         } else if (rightTracer == 1 && leftTracer == 0) {
             printf("Right\n");
             goRight();
-            delay(50);
+            delay(10);
         } else if (rightTracer == 1 && leftTracer == 1) {
             printf("Both\n");
             goForward();
@@ -67,7 +67,7 @@ int main(void) {
             if (counter == 4) {
                 stopDCMotor();
 		        rotate();
-                delay(1500);
+                delay(1200);
                 goForward();
                 continue;
             }
@@ -81,7 +81,7 @@ int main(void) {
         } else if (rightTracer == 0 && leftTracer == 0) {
             printf("No\n");
             goForward();
-            delay(50);
+            delay(10);
         }
     }
     
