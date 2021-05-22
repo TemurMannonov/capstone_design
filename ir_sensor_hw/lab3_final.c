@@ -71,18 +71,18 @@ int main(void) {
 
         if (distance < 20) {
             stopDCMotor();
+            initDCMotor();
+            delay(200);
             continue;
-        } else {
-            goForward();
         }
 
         LValue = digitalRead(LEFT_IR_PIN);
         RValue = digitalRead(RIGHT_IR_PIN);
         if (LValue == 0 || RValue == 0) {
             stopDCMotor();
+            initDCMotor();
+             delay(200);
             continue;
-        } else {
-            goForward();
         }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
