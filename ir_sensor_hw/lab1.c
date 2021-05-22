@@ -4,14 +4,17 @@
 #include <signal.h>
 #include <stdlib.h>
 
+// Motor Pins
 #define IN1_PIN 1
 #define IN2_PIN 4
 #define IN3_PIN 5
 #define IN4_PIN 6
 
+// Lin Tracer Motor Pins
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
+// Speed
 #define MAX_SPEED 50
 #define MIN_SPEED 0
 
@@ -29,7 +32,6 @@ void goRight();
 void smoothLeft();
 void smoothRight();
 void stopDCMotor();
-void rotate();
 
 // Signal handler function
 void signalHandler(int signal);
@@ -48,8 +50,7 @@ int main(void) {
     while (1) {
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
-        
-        printf("Tracer %d\n" ,leftTracer);	
+        	
         if (rightTracer == 0 || leftTracer == 0) {
             printf("Line\n");
             goForward();
@@ -59,7 +60,7 @@ int main(void) {
             goLeft();
             delay(1500);
             stopDCMotor();
-	    break;
+	        break;
         }
     }
     
@@ -102,34 +103,34 @@ void goForwardWithSpeed(int speed)
 }
 void goBackward()
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, MAX_SPEED);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 void goBackwardWithSpeed(int speed)
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, speed);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, speed);
 }
 
 void goRight()
 {
     softPwmWrite(IN1_PIN, MAX_SPEED);
-    softPwmWrite(IN2_PIN, LOW);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN2_PIN, MIN_SPEED);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 void goLeft()
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, MAX_SPEED);
     softPwmWrite(IN3_PIN, MAX_SPEED);
-    softPwmWrite(IN4_PIN, LOW);
+    softPwmWrite(IN4_PIN, MIN_SPEED);
 }
 
 void smoothLeft()
@@ -150,17 +151,10 @@ void smoothRight()
 
 void stopDCMotor()
 {
-    digitalWrite(IN1_PIN, LOW);
-    digitalWrite(IN2_PIN, LOW);
-    digitalWrite(IN3_PIN, LOW);
-    digitalWrite(IN4_PIN, LOW);
-}
-void rotate()
-{
-    digitalWrite(IN1_PIN, HIGH);
-    digitalWrite(IN2_PIN, LOW);
-    digitalWrite(IN3_PIN, LOW);
-    digitalWrite(IN4_PIN, HIGH);
+    softPwmStop(IN1_PIN);
+    softPwmStop(IN2_PIN);
+    softPwmStop(IN3_PIN);
+    softPwmStop(IN4_PIN);
 }
 
 void signalHandler(int signal)

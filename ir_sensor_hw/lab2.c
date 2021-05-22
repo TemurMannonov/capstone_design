@@ -4,14 +4,17 @@
 #include <signal.h>
 #include <stdlib.h>
 
+// Motor Pins
 #define IN1_PIN 1
 #define IN2_PIN 4
 #define IN3_PIN 5
 #define IN4_PIN 6
 
+// Lin Tracer Motor Pins
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
+// Speed
 #define MAX_SPEED 50
 #define MIN_SPEED 0
 
@@ -48,13 +51,13 @@ int main(void) {
 
     goForward();
     while (1) {
-	printf("Counter: %d\n", counter);
+	    printf("Counter: %d\n", counter);
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
         if (leftTracer == 1 && rightTracer == 1) {
             counter++;
-	    delay(200);
+	        delay(200);
         } 
 
         if (counter >= 2) {
@@ -102,34 +105,34 @@ void goForwardWithSpeed(int speed)
 }
 void goBackward()
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, MAX_SPEED);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 void goBackwardWithSpeed(int speed)
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, speed);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, speed);
 }
 
 void goRight()
 {
     softPwmWrite(IN1_PIN, MAX_SPEED);
-    softPwmWrite(IN2_PIN, LOW);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN2_PIN, MIN_SPEED);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 void goLeft()
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, MAX_SPEED);
     softPwmWrite(IN3_PIN, MAX_SPEED);
-    softPwmWrite(IN4_PIN, LOW);
+    softPwmWrite(IN4_PIN, MIN_SPEED);
 }
 
 void smoothLeft()
@@ -150,10 +153,10 @@ void smoothRight()
 
 void stopDCMotor()
 {
-    digitalWrite(IN1_PIN, LOW);
-    digitalWrite(IN2_PIN, LOW);
-    digitalWrite(IN3_PIN, LOW);
-    digitalWrite(IN4_PIN, LOW);
+    softPwmStop(IN1_PIN);
+    softPwmStop(IN2_PIN);
+    softPwmStop(IN3_PIN);
+    softPwmStop(IN4_PIN);
 }
 
 void signalHandler(int signal)
