@@ -67,7 +67,7 @@ int main(void) {
 
     while (1) {
         distance = getDistance();
-	    printf("Distance %dcm\n", distance);
+        printf("Distance %dcm\n", distance);
 
         if (distance < 20) {
             stopDCMotor();
@@ -76,10 +76,9 @@ int main(void) {
 
         LValue = digitalRead(LEFT_IR_PIN);
         RValue = digitalRead(RIGHT_IR_PIN);
-        if (LValue == 1 || RValue == 1) {
-            // stopDCMotor();
-            // continue;
-            printf("Obstacle\n");
+        if (LValue == 0 || RValue == 0) {
+            stopDCMotor();
+            continue;
         }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
