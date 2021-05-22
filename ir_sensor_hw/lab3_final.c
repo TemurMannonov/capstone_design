@@ -81,7 +81,7 @@ int main(void) {
         if (LValue == 0 || RValue == 0) {
             stopDCMotor();
             initDCMotor();
-             delay(200);
+            delay(200);
             continue;
         }
 
