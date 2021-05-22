@@ -94,7 +94,7 @@ int main(void) {
             printf("Counter: %d", counter);            
             if (counter == 4) {
 		        goLeft();
-                delay(1500);
+                delay(1200);
                 continue;
 	        }
 
@@ -106,7 +106,7 @@ int main(void) {
 
         } else if (rightTracer == 0 && leftTracer == 0) {
             goForward();
-            delay(20);
+            delay(10);
         }
     }
     
