@@ -21,11 +21,15 @@
 #define MAX_SPEED 80
 #define MIN_SPEED 0
 
-// Init Line Tracer
+// Init Line Tracer Sensors
 void initLineTracer();
 
-// Init IR
+// Init IR Sensors
 void initIR();
+
+// Init Ultrasonic Sensor
+void initUltrasonic();
+
 // DC Motor
 void initDCMotor();
 void goForward();
@@ -49,14 +53,12 @@ int main(void) {
 
     if(wiringPiSetup() == -1)
         return 0;
-    
-    pinMode(TRIG_PIN, OUTPUT);
-    pinMode(ECHO_PIN, INPUT);
 
     int leftTracer, rightTracer;
     int LValue, RValue;
     int distance;
 
+    initUltrasonic();
     initDCMotor();
     initIR();
     initLineTracer();
@@ -75,8 +77,9 @@ int main(void) {
         LValue = digitalRead(LEFT_IR_PIN);
         RValue = digitalRead(RIGHT_IR_PIN);
         if (LValue == 1 || RValue == 1) {
-            stopDCMotor();
-            continue;
+            // stopDCMotor();
+            // continue;
+            printf("Obstacle\n");
         }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
@@ -125,6 +128,12 @@ void initIR()
 {
     pinMode(LEFT_IR_PIN, INPUT);
     pinMode(RIGHT_IR_PIN, INPUT);
+}
+
+void initUltrasonic()
+{
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
 }
 
 void initDCMotor()
