@@ -41,7 +41,6 @@ void goRight();
 void smoothLeft();
 void smoothRight();
 void stopDCMotor();
-void rotate();
 
 // Get distance function
 int getDistance();
@@ -69,16 +68,10 @@ int main(void) {
         distance = getDistance();
         printf("Distance %dcm\n", distance);
 
-        if (distance < 20) {
-            stopDCMotor();
-            initDCMotor();
-            delay(200);
-            continue;
-        }
-
         LValue = digitalRead(LEFT_IR_PIN);
         RValue = digitalRead(RIGHT_IR_PIN);
-        if (LValue == 0 || RValue == 0) {
+
+        if ((distance < 20) || (LValue == 0 || RValue == 0)) {
             stopDCMotor();
             initDCMotor();
             delay(200);
@@ -97,12 +90,13 @@ int main(void) {
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
             counter++;
+
             printf("Counter: %d", counter);            
             if (counter == 4) {
-		goLeft();
+		        goLeft();
                 delay(1500);
                 continue;
-	    }
+	        }
 
             if (counter >= 7) {
                 stopDCMotor();
@@ -219,13 +213,6 @@ void stopDCMotor()
     softPwmStop(IN2_PIN);
     softPwmStop(IN3_PIN);
     softPwmStop(IN4_PIN);
-}
-void rotate()
-{
-    softPwmWrite(IN1_PIN, MAX_SPEED);
-    softPwmWrite(IN2_PIN, MIN_SPEED);
-    softPwmWrite(IN3_PIN, MIN_SPEED);
-    softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 int getDistance()
