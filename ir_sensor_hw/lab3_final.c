@@ -165,34 +165,34 @@ void goForwardWithSpeed(int speed)
 }
 void goBackward()
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, MAX_SPEED);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 void goBackwardWithSpeed(int speed)
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, speed);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, speed);
 }
 
 void goRight()
 {
     softPwmWrite(IN1_PIN, MAX_SPEED);
-    softPwmWrite(IN2_PIN, LOW);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN2_PIN, MIN_SPEED);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 void goLeft()
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, MAX_SPEED);
     softPwmWrite(IN3_PIN, MAX_SPEED);
-    softPwmWrite(IN4_PIN, LOW);
+    softPwmWrite(IN4_PIN, MIN_SPEED);
 }
 
 void smoothLeft()
@@ -213,10 +213,10 @@ void smoothRight()
 
 void stopDCMotor()
 {
-    digitalWrite(IN1_PIN, LOW);
-    digitalWrite(IN2_PIN, LOW);
-    digitalWrite(IN3_PIN, LOW);
-    digitalWrite(IN4_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
+    softPwmWrite(IN2_PIN, MIN_SPEED);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
+    softPwmWrite(IN4_PIN, MIN_SPEED);
 }
 void rotate()
 {
