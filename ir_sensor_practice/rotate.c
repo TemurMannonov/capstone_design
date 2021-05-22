@@ -42,9 +42,9 @@ int main(void) {
     initDCMotor();
     signal(SIGINT, signalHandler);
     goForward();
-    delay(200);
+    delay(500);
     rotate();
-    delay(2000);
+    delay(1500);
     stopDCMotor();
     
     
