@@ -83,8 +83,8 @@ int main(void) {
             //     waitSuddenPedestrian();
             // }
             byPassObstacle();
-            break;
             park();
+	    break;
             goBackFromPark();
             byPassObstacle();
         }
