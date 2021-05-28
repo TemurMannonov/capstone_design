@@ -77,6 +77,7 @@ int main(void) {
 
         if (LValue == 0 || RValue == 0) {
             byPassObstacle();
+            break;
             park();
             goBackFromPark();
             byPassObstacle();
@@ -97,6 +98,8 @@ int main(void) {
             goForward();
         }
     }
+
+    stopDCMotor();
     
     return 0;
 }
