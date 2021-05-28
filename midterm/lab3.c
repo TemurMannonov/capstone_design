@@ -83,6 +83,16 @@ int main(void) {
             continue;
         }
 
+        if (Lvalue == 0 || RValue == 1) {
+            goRight();
+            delay(20);
+        }
+
+        if (Lvalue == 1 || RValue == 0) {
+            goLeft();
+            delay(20);
+        }
+
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
