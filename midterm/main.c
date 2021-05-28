@@ -57,6 +57,7 @@ void signalHandler(int signal);
 void byPassObstacle();
 void park();
 void goBackFromPark();
+void waitSuddenPedestrian();
 
 int main(void) {
 
@@ -65,6 +66,7 @@ int main(void) {
 
     int leftTracer, rightTracer;
     int LValue, RValue;
+    int flag;
 
     initDCMotor();
     initIR();
@@ -76,6 +78,10 @@ int main(void) {
         RValue = digitalRead(RIGHT_IR_PIN);
 
         if (LValue == 0 || RValue == 0) {
+            if (flag == 0) {
+                flag = 1;
+                waitSuddenPedestrian();
+            }
             byPassObstacle();
             break;
             park();
@@ -263,44 +269,44 @@ void byPassObstacle()
     delay(500);
 
     // Go forward till the line
-     while (1) {
-         leftTracer = digitalRead(LEFT_TRACER_PIN);
-         rightTracer = digitalRead(RIGHT_TRACER_PIN);
+    while (1) {
+        leftTracer = digitalRead(LEFT_TRACER_PIN);
+        rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
-         if (leftTracer == 0 || rightTracer == 0) {
-             goBackward();
-             delay(100);
-	     stopDCMotor();
-	     initDCMotor();
-             break;
-         } 
-     }
+        if (leftTracer == 0 || rightTracer == 0) {
+            goBackward();
+            delay(100);
+            stopDCMotor();
+            initDCMotor();
+            break;
+        } 
+    }
 
-     goLeft();
-     delay(300);
-     goForward();
+    goLeft();
+    delay(300);
+    goForward();
 
-     // Go forward till the second line
-     while (1) {
-         leftTracer = digitalRead(LEFT_TRACER_PIN);
-         rightTracer = digitalRead(RIGHT_TRACER_PIN);
+    // Go forward till the second line
+    while (1) {
+        leftTracer = digitalRead(LEFT_TRACER_PIN);
+        rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
-         if (leftTracer == 0 || rightTracer == 0) {
-             goBackward();
-             delay(100);
-	     stopDCMotor();
-	     initDCMotor();
-	     break;
-         } 
-     }
+        if (leftTracer == 0 || rightTracer == 0) {
+            goBackward();
+            delay(100);
+            stopDCMotor();
+            initDCMotor();
+            break;
+        } 
+    }
 
     goLeft();
     delay(500);
-     goForward();
-     delay(500);
-     goRight();
-     delay(500);
-     goForward();
+    goForward();
+    delay(500);
+    goRight();
+    delay(500);
+    goForward();
 }
 
 void park()
@@ -360,4 +366,21 @@ void goBackFromPark()
         }
     }
 }
+
+void waitSuddenPedestrian() 
+{
+    int LValue, RValue;
+
+    // Go forward till the obstacle
+    while (1) {
+        LValue = digitalRead(LEFT_IR_PIN);
+        RValue = digitalRead(RIGHT_IR_PIN);
+
+        if (LValue != 0 || RValue != 0) {
+            break;
+        }
+        delay(500);
+    }
+}
+
 
