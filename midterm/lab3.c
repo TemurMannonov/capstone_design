@@ -70,6 +70,18 @@ int main(void) {
     signal(SIGINT, signalHandler);
 
     while (1) {
+        distance = getDistance();
+        printf("Distance %dcm\n", distance);
+        
+        if (distance < 30) {
+            goBackward();
+            delay(200);
+            goRight();
+            delay(200);
+            goForward();
+            delay(200);
+            continue;
+        }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
@@ -83,10 +95,7 @@ int main(void) {
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
 	        delay(10);
-        } else if (rightTracer == 0 && leftTracer == 0) {
-            counter++;
-
-            printf("Counter: %d", counter);            
+        } else if (rightTracer == 0 && leftTracer == 0) {          
             goForward();
             delay(10);
         }
