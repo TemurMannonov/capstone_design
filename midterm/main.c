@@ -291,6 +291,33 @@ void byPassObstacle()
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
+        if (leftTracer == 1 && rightTracer == 0) {
+            goLeft();
+            delay(20);
+        } else if (rightTracer == 1 && leftTracer == 0) {
+            goRight();
+            delay(20);
+        } else if (rightTracer == 1 && leftTracer == 1) {
+            goForward();
+        } else if (rightTracer == 0 && leftTracer == 0) {          
+            goBackward();
+            delay(100);
+            stopDCMotor();
+            initDCMotor();
+            break;
+        }
+    }
+
+    goLeft();
+    delay(500);
+    goForward();
+    delay(500);
+
+    // Go forward till the line
+    while (1) {
+        leftTracer = digitalRead(LEFT_TRACER_PIN);
+        rightTracer = digitalRead(RIGHT_TRACER_PIN);
+        
         if (leftTracer == 0 || rightTracer == 0) {
             goBackward();
             delay(100);
@@ -300,10 +327,6 @@ void byPassObstacle()
         } 
     }
 
-    goLeft();
-    delay(500);
-    goForward();
-    delay(500);
     goRight();
     delay(500);
     goForward();
@@ -311,21 +334,25 @@ void byPassObstacle()
 
 void park()
 {
-    int LValue, RValue;
     int leftTracer, rightTracer;
     
     goForward();
 
     // Go forward till the line
-    while (1) {
-        leftTracer = digitalRead(LEFT_TRACER_PIN);
-        rightTracer = digitalRead(RIGHT_TRACER_PIN);
-        
-        if (leftTracer == 1 || rightTracer == 1) {
-            goBackward();
-            delay(100);
-            break;
-        } 
+    if (leftTracer == 1 && rightTracer == 0) {
+        goLeft();
+        delay(20);
+    } else if (rightTracer == 1 && leftTracer == 0) {
+        goRight();
+        delay(20);
+    } else if (rightTracer == 1 && leftTracer == 1) {
+        goForward();
+    } else if (rightTracer == 0 && leftTracer == 0) {          
+        goBackward();
+        delay(100);
+        stopDCMotor();
+        initDCMotor();
+        break;
     }
 
     goLeft();
@@ -337,7 +364,8 @@ void park()
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
-        if (leftTracer == 1 || rightTracer == 1) {
+        if (leftTracer == 0 || rightTracer == 0) {
+            delay(200);
             stopDCMotor();
             initDCMotor();
             delay(500);
