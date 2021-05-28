@@ -70,34 +70,33 @@ int main(void) {
     signal(SIGINT, signalHandler);
 
     while (1) {
-        distance = getDistance();
-        printf("Distance %dcm\n", distance);
+       // distance = getDistance();
+       // printf("Distance %dcm\n", distance);
         
-        if (distance < 30) {
-            goBackward();
-            delay(200);
-            goRight();
-            delay(200);
-            goForward();
-            delay(200);
-            continue;
-        }
+       // if (distance < 30 && 0) {
+         //   goBackward();
+          //  delay(200);
+          //  goRight();
+           // delay(200);
+       //     goForward();
+        //    delay(200);
+       // }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
         if (leftTracer == 1 && rightTracer == 0) {
             goLeft();
-            delay(50);
+           // delay(1);
         } else if (rightTracer == 1 && leftTracer == 0) {
             goRight();
-            delay(50);
+           // delay(1);
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
-	        delay(10);
+	     //   delay(1);
         } else if (rightTracer == 0 && leftTracer == 0) {          
             goForward();
-            delay(10);
+           // delay(1);
         }
     }
     
