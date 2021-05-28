@@ -76,7 +76,7 @@ int main(void) {
         RValue = digitalRead(RIGHT_IR_PIN);
 
         if (LValue == 0 || RValue == 0) {
-            byPassObstacle()
+            byPassObstacle();
             park();
             goBackFromPark();
             byPassObstacle();
