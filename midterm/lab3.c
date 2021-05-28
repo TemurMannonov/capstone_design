@@ -70,17 +70,15 @@ int main(void) {
     signal(SIGINT, signalHandler);
 
     while (1) {
-       // distance = getDistance();
-       // printf("Distance %dcm\n", distance);
-        
-       // if (distance < 30 && 0) {
-         //   goBackward();
-          //  delay(200);
-          //  goRight();
-           // delay(200);
-       //     goForward();
-        //    delay(200);
-       // }
+        LValue = digitalRead(LEFT_IR_PIN);
+        RValue = digitalRead(RIGHT_IR_PIN);
+
+        if (LValue == 0 || RValue == 0) {
+            goBackward();
+            delay(100);
+            goRight();
+            delay(50);
+        }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
