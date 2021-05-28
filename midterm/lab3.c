@@ -75,9 +75,9 @@ int main(void) {
 
         if (LValue == 0 || RValue == 0) {
             goBackward();
-            delay(100);
+            delay(500);
             goRight();
-            delay(50);
+            delay(200);
         }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
