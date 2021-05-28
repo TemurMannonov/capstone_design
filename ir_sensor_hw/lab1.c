@@ -10,7 +10,7 @@
 #define IN3_PIN 5
 #define IN4_PIN 6
 
-// Lin Tracer Motor Pins
+// Lin Tracer Sensor Pins
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 

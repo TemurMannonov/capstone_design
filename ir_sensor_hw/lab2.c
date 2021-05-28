@@ -10,7 +10,7 @@
 #define IN3_PIN 5
 #define IN4_PIN 6
 
-// Lin Tracer Motor Pins
+// Lin Tracer Sensor Pins
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
@@ -42,12 +42,11 @@ int main(void) {
         return 0;
 
     int leftTracer, rightTracer;
+    int counter = 0;
 
     initDCMotor();
     initLineTracer();
     signal(SIGINT, signalHandler);
-    
-    int counter = 0;
 
     goForward();
     while (1) {

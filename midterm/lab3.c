@@ -4,20 +4,25 @@
 #include <signal.h>
 #include <stdlib.h>
 
+// Motor Pins
 #define IN1_PIN 1
 #define IN2_PIN 4
 #define IN3_PIN 5
 #define IN4_PIN 6
 
+// Lin Tracer Sensor Pins
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
+// IR Pins
 #define LEFT_IR_PIN 27
 #define RIGHT_IR_PIN 26
 
+// Ultrasonic Sensor Pins
 #define TRIG_PIN 28
 #define ECHO_PIN 29
 
+// Speed
 #define MAX_SPEED 60
 #define MIN_SPEED 0
 
@@ -56,13 +61,13 @@ int main(void) {
     int leftTracer, rightTracer;
     int LValue, RValue;
     int distance;
+    int counter = 0;
 
     initUltrasonic();
     initDCMotor();
     initIR();
     initLineTracer();
     signal(SIGINT, signalHandler);
-    int counter = 0;
 
     while (1) {
         distance = getDistance();
@@ -82,31 +87,33 @@ int main(void) {
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
         if (leftTracer == 1 && rightTracer == 0) {
-            goLeft();
+            goRight();
             delay(20);
         } else if (rightTracer == 1 && leftTracer == 0) {
-            goRight();
+            goLeft();
             delay(20);
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
+	        delay(20);
+        } else if (rightTracer == 0 && leftTracer == 0) {
             counter++;
 
             printf("Counter: %d", counter);            
-            if (counter == 4) {
-		        goLeft();
-                delay(1200);
+            if (counter == 1) {
+                delay(2000);
                 continue;
 	        }
 
-            if (counter >= 7) {
-                stopDCMotor();
+            if (counter == 2 ) {
+                goRight();
+                delay(500);
+                goForward();
+                delay(500);
+                stopDCMotor()
                 break;
             }
-	        delay(200);
-
-        } else if (rightTracer == 0 && leftTracer == 0) {
             goForward();
-            delay(10);
+            delay(1000);
         }
     }
     

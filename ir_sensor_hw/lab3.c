@@ -4,19 +4,36 @@
 #include <signal.h>
 #include <stdlib.h>
 
+// Motor Pins
 #define IN1_PIN 1
 #define IN2_PIN 4
 #define IN3_PIN 5
 #define IN4_PIN 6
 
+// Lin Tracer Sensor Pins
 #define LEFT_TRACER_PIN 10
 #define RIGHT_TRACER_PIN 11
 
-#define MAX_SPEED 80
+// IR Pins
+#define LEFT_IR_PIN 27
+#define RIGHT_IR_PIN 26
+
+// Ultrasonic Sensor Pins
+#define TRIG_PIN 28
+#define ECHO_PIN 29
+
+// Speed
+#define MAX_SPEED 60
 #define MIN_SPEED 0
 
-// Init Line Tracer
+// Init Line Tracer Sensors
 void initLineTracer();
+
+// Init IR Sensors
+void initIR();
+
+// Init Ultrasonic Sensor
+void initUltrasonic();
 
 // DC Motor
 void initDCMotor();
@@ -29,7 +46,9 @@ void goRight();
 void smoothLeft();
 void smoothRight();
 void stopDCMotor();
-void rotate();
+
+// Get distance function
+int getDistance();
 
 // Signal handler function
 void signalHandler(int signal);
@@ -40,37 +59,49 @@ int main(void) {
         return 0;
 
     int leftTracer, rightTracer;
-
-    initDCMotor();
-    initLineTracer();
-    signal(SIGINT, signalHandler);
+    int LValue, RValue;
+    int distance;
     int counter = 0;
 
+    initUltrasonic();
+    initDCMotor();
+    initIR();
+    initLineTracer();
+    signal(SIGINT, signalHandler);
+
     while (1) {
+        distance = getDistance();
+        printf("Distance %dcm\n", distance);
+
+        LValue = digitalRead(LEFT_IR_PIN);
+        RValue = digitalRead(RIGHT_IR_PIN);
+
+        if ((distance < 20) || (LValue == 0 || RValue == 0)) {
+            stopDCMotor();
+            initDCMotor();
+            delay(200);
+            continue;
+        }
+
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
         if (leftTracer == 1 && rightTracer == 0) {
-            printf("Left\n");
             goLeft();
-            delay(10);
+            delay(20);
         } else if (rightTracer == 1 && leftTracer == 0) {
-            printf("Right\n");
             goRight();
-            delay(10);
+            delay(20);
         } else if (rightTracer == 1 && leftTracer == 1) {
-            printf("Both\n");
             goForward();
             counter++;
-	        printf("Counter: %d\n", counter);
-            
+
+            printf("Counter: %d", counter);            
             if (counter == 4) {
-                stopDCMotor();
-		        rotate();
+		        goLeft();
                 delay(1200);
-                goForward();
                 continue;
-            }
+	        }
 
             if (counter >= 7) {
                 stopDCMotor();
@@ -79,7 +110,6 @@ int main(void) {
 	        delay(200);
 
         } else if (rightTracer == 0 && leftTracer == 0) {
-            printf("No\n");
             goForward();
             delay(10);
         }
@@ -92,6 +122,18 @@ void initLineTracer()
 {
     pinMode(LEFT_TRACER_PIN, INPUT);
     pinMode(RIGHT_TRACER_PIN, INPUT);
+}
+
+void initIR()
+{
+    pinMode(LEFT_IR_PIN, INPUT);
+    pinMode(RIGHT_IR_PIN, INPUT);
+}
+
+void initUltrasonic()
+{
+    pinMode(TRIG_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
 }
 
 void initDCMotor()
@@ -124,34 +166,34 @@ void goForwardWithSpeed(int speed)
 }
 void goBackward()
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, MAX_SPEED);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 void goBackwardWithSpeed(int speed)
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, speed);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, speed);
 }
 
 void goRight()
 {
     softPwmWrite(IN1_PIN, MAX_SPEED);
-    softPwmWrite(IN2_PIN, LOW);
-    softPwmWrite(IN3_PIN, LOW);
+    softPwmWrite(IN2_PIN, MIN_SPEED);
+    softPwmWrite(IN3_PIN, MIN_SPEED);
     softPwmWrite(IN4_PIN, MAX_SPEED);
 }
 
 void goLeft()
 {
-    softPwmWrite(IN1_PIN, LOW);
+    softPwmWrite(IN1_PIN, MIN_SPEED);
     softPwmWrite(IN2_PIN, MAX_SPEED);
     softPwmWrite(IN3_PIN, MAX_SPEED);
-    softPwmWrite(IN4_PIN, LOW);
+    softPwmWrite(IN4_PIN, MIN_SPEED);
 }
 
 void smoothLeft()
@@ -172,17 +214,29 @@ void smoothRight()
 
 void stopDCMotor()
 {
-    digitalWrite(IN1_PIN, LOW);
-    digitalWrite(IN2_PIN, LOW);
-    digitalWrite(IN3_PIN, LOW);
-    digitalWrite(IN4_PIN, LOW);
+    softPwmStop(IN1_PIN);
+    softPwmStop(IN2_PIN);
+    softPwmStop(IN3_PIN);
+    softPwmStop(IN4_PIN);
 }
-void rotate()
+
+int getDistance()
 {
-    softPwmWrite(IN1_PIN, MAX_SPEED);
-    softPwmWrite(IN2_PIN, MIN_SPEED);
-    softPwmWrite(IN3_PIN, MIN_SPEED);
-    softPwmWrite(IN4_PIN, MAX_SPEED);
+    int start_time=0, end_time=0;
+    float distance=0;
+
+    digitalWrite(TRIG_PIN, LOW);
+    delayMicroseconds(2);
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+    while (digitalRead(ECHO_PIN) == 0);
+        start_time = micros();
+    while (digitalRead(ECHO_PIN) == 1);
+        end_time = micros();
+
+    distance = (end_time - start_time) / 29. / 2.;
+    return (int)distance;
 }
 
 void signalHandler(int signal)
