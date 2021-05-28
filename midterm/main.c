@@ -78,10 +78,10 @@ int main(void) {
         RValue = digitalRead(RIGHT_IR_PIN);
 
         if (LValue == 0 || RValue == 0) {
-            if (flag == 0) {
-                flag = 1;
-                waitSuddenPedestrian();
-            }
+            // if (flag == 0) {
+            //     flag = 1;
+            //     waitSuddenPedestrian();
+            // }
             byPassObstacle();
             break;
             park();
