@@ -324,7 +324,7 @@ void park()
         
         if (leftTracer == 1 || rightTracer == 1) {
             stopDCMotor();
-            initDCMotor()
+            initDCMotor();
             delay(500);
         } 
     }
@@ -347,7 +347,7 @@ void goBackFromPark()
         RValue = digitalRead(RIGHT_IR_PIN);
 
         if (LValue == 0 || RValue == 0) {
-            break
+            break;
         }
     }
 }
