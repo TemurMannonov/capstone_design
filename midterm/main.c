@@ -84,7 +84,6 @@ int main(void) {
             // }
             byPassObstacle();
             park();
-	    break;
             goBackFromPark();
             byPassObstacle();
         }
@@ -240,25 +239,6 @@ void signalHandler(int signal)
 
 void byPassObstacle()
 {
-    
-    // goBackward();
-    // delay(300);
-    // goRight();
-    // delay(500);
-    // goForward();
-    // delay(500);
-    // goLeft();
-	// delay(500);
-    // goForward();
-    // delay(2000);
-    // goLeft();
-    // delay(500);
-    // goForward();
-    // delay(500);
-    // goRight();
-    // delay(500);
-    // goForward();
-
     int LValue, RValue;
     int leftTracer, rightTracer;
     goBackward();
@@ -342,7 +322,7 @@ void park()
     while (1) {
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
-        
+
         if (leftTracer == 1 && rightTracer == 0) {
             goLeft();
             delay(20);
@@ -384,18 +364,38 @@ void goBackFromPark()
     int leftTracer, rightTracer;
     
     goBackward();
-    delay(1000);
+    delay(2000);
     goLeft();
     delay(500);
     goForward();
 
-    // Go forward till the obstacle
     while (1) {
         LValue = digitalRead(LEFT_IR_PIN);
         RValue = digitalRead(RIGHT_IR_PIN);
 
         if (LValue == 0 || RValue == 0) {
+            stopDCMotor();
+            initDCMotor();
             break;
+        }
+
+        leftTracer = digitalRead(LEFT_TRACER_PIN);
+        rightTracer = digitalRead(RIGHT_TRACER_PIN);
+
+        if (leftTracer == 1 && rightTracer == 0) {
+            goLeft();
+            delay(20);
+        } else if (rightTracer == 1 && leftTracer == 0) {
+            goLeft();
+            delay(20);
+        } else if (rightTracer == 1 && leftTracer == 1) {
+            goForward();
+        } else if (rightTracer == 0 && leftTracer == 0) {          
+            goBackward();
+            delay(100);
+            goLeft();
+            delay(200);
+            goForward();
         }
     }
 }
