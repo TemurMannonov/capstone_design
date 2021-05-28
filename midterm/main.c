@@ -23,7 +23,7 @@
 #define ECHO_PIN 29
 
 // Speed
-#define MAX_SPEED 60
+#define MAX_SPEED 50
 #define MIN_SPEED 0
 
 // Init Line Tracer Sensors
@@ -75,9 +75,34 @@ int main(void) {
 
         if (LValue == 0 || RValue == 0) {
             goBackward();
+            delay(300);
+            goRight();
+            delay(500);
+            goForward();
+            delay(500);
+            goLeft();
+	    delay(500);
+            goForward();
+            delay(2000);
+            goLeft();
+            delay(500);
+            goForward();
             delay(500);
             goRight();
-            delay(200);
+            delay(500);
+            goForward();
+	    delay(1000);
+	    goRight();
+	    delay(500);
+	    goForward();
+	    delay(500);
+	    stopDCMotor();
+            initDCMotor();
+	    delay(500);
+	    goBackward();
+	    delay(1500);
+	    goLeft();
+	    delay(500);
         }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
@@ -85,16 +110,14 @@ int main(void) {
         
         if (leftTracer == 1 && rightTracer == 0) {
             goLeft();
-           // delay(1);
+            delay(20);
         } else if (rightTracer == 1 && leftTracer == 0) {
             goRight();
-           // delay(1);
+            delay(20);
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
-	     //   delay(1);
         } else if (rightTracer == 0 && leftTracer == 0) {          
             goForward();
-           // delay(1);
         }
     }
     
