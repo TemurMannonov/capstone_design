@@ -62,6 +62,8 @@ int main(void) {
     int LValue, RValue;
     int distance;
     int counter = 0;
+    int suddenPedestrianFlag = 0
+    int obstacleFlag = 0
 
     initUltrasonic();
     initDCMotor();
@@ -75,9 +77,21 @@ int main(void) {
 
         if (LValue == 0 || RValue == 0) {
             goBackward();
-            delay(100);
+            delay(200);
             goRight();
-            delay(50);
+            delay(500);
+            goForward();
+            delay(300);
+            goLeft(500);
+            goForward();
+            delay(1000);
+            goLeft();
+            delay(500);
+            goForward();
+            delay(400);
+            goRight();
+            delay(500);
+            goForward();
         }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
@@ -91,7 +105,6 @@ int main(void) {
            // delay(1);
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
-	     //   delay(1);
         } else if (rightTracer == 0 && leftTracer == 0) {          
             goForward();
            // delay(1);
