@@ -354,6 +354,7 @@ void park()
             stopDCMotor();
             initDCMotor();
             delay(500);
+	    break;
         } 
     }
 }
@@ -364,7 +365,7 @@ void goBackFromPark()
     int leftTracer, rightTracer;
     
     goBackward();
-    delay(2000);
+    delay(1000);
     goLeft();
     delay(500);
     goForward();
