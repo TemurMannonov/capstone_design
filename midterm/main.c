@@ -78,14 +78,17 @@ int main(void) {
         RValue = digitalRead(RIGHT_IR_PIN);
 
         if (LValue == 0 || RValue == 0) {
-            // if (flag == 0) {
-            //     flag = 1;
-            //     waitSuddenPedestrian();
-            // }
-            byPassObstacle();
-            park();
-            goBackFromPark();
-            byPassObstacle();
+             if (flag == 0) {
+                 flag = 1;
+		 stopDCMotor();
+		 initDCMotor();
+                 waitSuddenPedestrian();
+             } else if (flag == 1) {
+            	byPassObstacle();
+            	park();
+            	goBackFromPark();
+            	byPassObstacle();
+	    }
         }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
@@ -407,13 +410,13 @@ void waitSuddenPedestrian()
 
     // Go forward till the obstacle
     while (1) {
+        delay(500);
         LValue = digitalRead(LEFT_IR_PIN);
         RValue = digitalRead(RIGHT_IR_PIN);
 
-        if (LValue != 0 || RValue != 0) {
+        if (LValue == 1 && RValue == 1) {
             break;
         }
-        delay(500);
     }
 }
 
