@@ -339,20 +339,25 @@ void park()
     goForward();
 
     // Go forward till the line
-    if (leftTracer == 1 && rightTracer == 0) {
-        goLeft();
-        delay(20);
-    } else if (rightTracer == 1 && leftTracer == 0) {
-        goRight();
-        delay(20);
-    } else if (rightTracer == 1 && leftTracer == 1) {
-        goForward();
-    } else if (rightTracer == 0 && leftTracer == 0) {          
-        goBackward();
-        delay(100);
-        stopDCMotor();
-        initDCMotor();
-        break;
+    while (1) {
+        leftTracer = digitalRead(LEFT_TRACER_PIN);
+        rightTracer = digitalRead(RIGHT_TRACER_PIN);
+        
+        if (leftTracer == 1 && rightTracer == 0) {
+            goLeft();
+            delay(20);
+        } else if (rightTracer == 1 && leftTracer == 0) {
+            goRight();
+            delay(20);
+        } else if (rightTracer == 1 && leftTracer == 1) {
+            goForward();
+        } else if (rightTracer == 0 && leftTracer == 0) {          
+            goBackward();
+            delay(100);
+            stopDCMotor();
+            initDCMotor();
+            break;
+        }
     }
 
     goLeft();
