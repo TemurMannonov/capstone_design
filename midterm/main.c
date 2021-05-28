@@ -257,41 +257,42 @@ void byPassObstacle()
     goRight();
     delay(500);
     goForward();
+    break;
 
     // Go forward till the line
-    while (1) {
-        leftTracer = digitalRead(LEFT_TRACER_PIN);
-        rightTracer = digitalRead(RIGHT_TRACER_PIN);
+    // while (1) {
+    //     leftTracer = digitalRead(LEFT_TRACER_PIN);
+    //     rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
-        if (leftTracer == 1 || rightTracer == 1) {
-            goBackward();
-            delay(100);
-            break;
-        } 
-    }
+    //     if (leftTracer == 1 || rightTracer == 1) {
+    //         goBackward();
+    //         delay(100);
+    //         break;
+    //     } 
+    // }
 
-    goLeft();
-    delay(500);
-    goForward();
+    // goLeft();
+    // delay(500);
+    // goForward();
 
-    // Go forward till the second line
-    while (1) {
-        leftTracer = digitalRead(LEFT_TRACER_PIN);
-        rightTracer = digitalRead(RIGHT_TRACER_PIN);
+    // // Go forward till the second line
+    // while (1) {
+    //     leftTracer = digitalRead(LEFT_TRACER_PIN);
+    //     rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
-        if (leftTracer == 1 || rightTracer == 1) {
-            goBackward();
-            delay(100);
-        } 
-    }
+    //     if (leftTracer == 1 || rightTracer == 1) {
+    //         goBackward();
+    //         delay(100);
+    //     } 
+    // }
 
-    goLeft();
-    delay(500);
-    goForward();
-    delay(500);
-    goRight();
-    delay(500);
-    goForward();
+    // goLeft();
+    // delay(500);
+    // goForward();
+    // delay(500);
+    // goRight();
+    // delay(500);
+    // goForward();
 }
 
 void park()
