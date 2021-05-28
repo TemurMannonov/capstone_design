@@ -365,7 +365,7 @@ void goBackFromPark()
     int leftTracer, rightTracer;
     
     goBackward();
-    delay(1000);
+    delay(1500);
     goLeft();
     delay(500);
     goForward();
@@ -387,7 +387,7 @@ void goBackFromPark()
             goLeft();
             delay(20);
         } else if (rightTracer == 1 && leftTracer == 0) {
-            goLeft();
+            goRight();
             delay(20);
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
