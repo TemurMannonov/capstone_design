@@ -70,60 +70,25 @@ int main(void) {
     signal(SIGINT, signalHandler);
 
     while (1) {
-        distance = getDistance();
-        printf("Distance %dcm\n", distance);
-
-        LValue = digitalRead(LEFT_IR_PIN);
-        RValue = digitalRead(RIGHT_IR_PIN);
-
-        if ((distance < 20) || (LValue == 0 || RValue == 0)) {
-            stopDCMotor();
-            initDCMotor();
-            delay(200);
-            continue;
-        }
-
-        if (Lvalue == 0 || RValue == 1) {
-            goRight();
-            delay(20);
-        }
-
-        if (Lvalue == 1 || RValue == 0) {
-            goLeft();
-            delay(20);
-        }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
         rightTracer = digitalRead(RIGHT_TRACER_PIN);
         
         if (leftTracer == 1 && rightTracer == 0) {
-            goRight();
-            delay(20);
-        } else if (rightTracer == 1 && leftTracer == 0) {
             goLeft();
-            delay(20);
+            delay(50);
+        } else if (rightTracer == 1 && leftTracer == 0) {
+            goRight();
+            delay(50);
         } else if (rightTracer == 1 && leftTracer == 1) {
             goForward();
-	        delay(20);
+	        delay(10);
         } else if (rightTracer == 0 && leftTracer == 0) {
             counter++;
 
             printf("Counter: %d", counter);            
-            if (counter == 1) {
-                delay(2000);
-                continue;
-	        }
-
-            if (counter == 2 ) {
-                goRight();
-                delay(500);
-                goForward();
-                delay(500);
-                stopDCMotor()
-                break;
-            }
             goForward();
-            delay(1000);
+            delay(10);
         }
     }
     
