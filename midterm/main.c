@@ -78,17 +78,20 @@ int main(void) {
         RValue = digitalRead(RIGHT_IR_PIN);
 
         if (LValue == 0 || RValue == 0) {
-             if (flag == 0) {
-                 flag = 1;
-		 stopDCMotor();
-		 initDCMotor();
-                 waitSuddenPedestrian();
-             } else if (flag == 1) {
+            if (flag == 0) {
+                flag = 1;
+                delay(50);
+                stopDCMotor();
+                initDCMotor();
+                waitSuddenPedestrian();
+                delay(1500);
+            } else if (flag == 1) {
+                delay(50);
             	byPassObstacle();
             	park();
             	goBackFromPark();
             	byPassObstacle();
-	    }
+	        }
         }
 
         leftTracer = digitalRead(LEFT_TRACER_PIN);
