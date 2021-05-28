@@ -281,7 +281,7 @@ void byPassObstacle()
             goForward();
         } else if (rightTracer == 0 && leftTracer == 0) {          
             goBackward();
-            delay(100);
+            delay(200);
             stopDCMotor();
             initDCMotor();
             break;
@@ -365,7 +365,7 @@ void goBackFromPark()
     int leftTracer, rightTracer;
     
     goBackward();
-    delay(1500);
+    delay(1000);
     goLeft();
     delay(500);
     goForward();
