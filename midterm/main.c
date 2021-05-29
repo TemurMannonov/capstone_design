@@ -73,6 +73,8 @@ int main(void) {
     initLineTracer();
     signal(SIGINT, signalHandler);
 
+    goForward();
+    delay(100);
     while (1) {
         LValue = digitalRead(LEFT_IR_PIN);
         RValue = digitalRead(RIGHT_IR_PIN);
@@ -80,13 +82,12 @@ int main(void) {
         if (LValue == 0 || RValue == 0) {
             if (flag == 0) {
                 flag = 1;
-                delay(50);
+                delay(10);
                 stopDCMotor();
                 initDCMotor();
                 waitSuddenPedestrian();
-                delay(1500);
+                delay(1000);
             } else if (flag == 1) {
-                delay(50);
             	byPassObstacle();
             	park();
             	goBackFromPark();
